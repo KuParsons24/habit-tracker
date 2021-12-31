@@ -3,17 +3,41 @@ import CircleIcon from '@mui/icons-material/Circle';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import * as React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 // prop: days: 0 = non active day, 1 = active but not logged, 2 = logged
 // prop: tite = habit title
-export default function Habit({ title, days }) {
+export default function Habit({ title, days, id }) {
+  const [progress, setProgress] = React.useState(0);
+  let navigate = useNavigate();
+
+  const clickHandler = () => {
+    navigate(`/habit/${id}`);
+  }
+
+  const calcProgress = () => {
+    let logged = 0;
+    let active = 0;
+    for (const day in days) {
+      if (days[day] == 1) {
+        active++;
+      }
+      if (days[day] == 2) {
+        active++;
+        logged++;
+      }
+    }
+    setProgress((logged/active)*100);
+  }
+
+  React.useEffect(calcProgress, []);
 
   return(
-    <Paper elevation={2} sx={{ width: '100%' }} >
+    <Paper onClick={clickHandler} elevation={2} sx={{ width: '100%' }} >
       <Grid container alignItems='center' padding='10px' marginTop='5px'>
         <Grid item xs >
           <Stack spacing={2} direction='row' alignItems='center' >
-            <CircularProgress key='progress' size={30} variant='determinate' value={25} />
+            <CircularProgress key='progress' size={30} variant='determinate' value={progress} />
             <Typography key='title' variant='body1' >{title}</Typography>
           </Stack>
         </Grid>
