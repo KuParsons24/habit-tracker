@@ -4,11 +4,15 @@ import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import * as React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-export default function NavBar({ title, backButton }) {
+export default function NavBar({ title, backButton, setOpenDialog }) {
   let navigate = useNavigate();
   
   const handleBackClick = () => {
     navigate(-1);
+  };
+
+  const handleAddClick = () => {
+    setOpenDialog(true);
   };
 
   return (
@@ -25,7 +29,7 @@ export default function NavBar({ title, backButton }) {
         </Typography>
         {backButton ?  
         null :         
-        <IconButton color='inherit' >
+        <IconButton color='inherit' onClick={handleAddClick} >
           <AddIcon />
         </IconButton>}
       </Toolbar>

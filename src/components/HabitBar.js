@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 
 // prop: days: 0 = non active day, 1 = active but not logged, 2 = logged
 // prop: tite = habit title
-export default function Habit({ title, days, id }) {
+export default function HabitBar({ habit, id }) {
   const [progress, setProgress] = React.useState(0);
   let navigate = useNavigate();
 
@@ -15,22 +15,27 @@ export default function Habit({ title, days, id }) {
     navigate(`/habit/${id}`);
   }
 
+  // Sets the progress bar on the left side of the habit container.
   const calcProgress = () => {
+    // console.log('I Ran!');
+    let week = habit.getWeekData();
     let logged = 0;
     let active = 0;
-    for (const day in days) {
-      if (days[day] == 1) {
+    for (let day in week) {
+      // console.log(day);
+      if (week[day] === 1) {
+        // console.log('Active +');
         active++;
-      }
-      if (days[day] == 2) {
-        active++;
+      } else if (week[day] === 2){
+        // console.log('logged +');
         logged++;
+        active++;
       }
     }
     setProgress((logged/active)*100);
   }
 
-  React.useEffect(calcProgress, []);
+  React.useEffect(calcProgress, [habit]);
 
   return(
     <Paper onClick={clickHandler} elevation={2} sx={{ width: '100%' }} >
@@ -38,12 +43,12 @@ export default function Habit({ title, days, id }) {
         <Grid item xs >
           <Stack spacing={2} direction='row' alignItems='center' >
             <CircularProgress key='progress' size={30} variant='determinate' value={progress} />
-            <Typography key='title' variant='body1' >{title}</Typography>
+            <Typography key='title' variant='body1' sx={{ overflowWrap: 'break-word', hyphens: 'auto' }} >{habit.title}</Typography>
           </Stack>
         </Grid>
         <Grid item xs >
           <Stack spacing={0.25} direction='row' alignItems='center' justifyContent='flex-end' >
-            {days.map((day, i) => {
+            {habit.getWeekData().map((day, i) => {
               switch (day) {
                 case 0:
                   return <CloseIcon key={i} sx={{ height: '10px', color: 'lightgray' }} />;
