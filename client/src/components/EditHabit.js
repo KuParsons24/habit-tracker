@@ -55,7 +55,7 @@ export default function EditHabit({ open, setOpen, setHabits, habit, setHabit })
       return setHabit;
     });
     setHabits((prev) => {
-      const nHabit = new Habit(habit.id, name, frequency);
+      const nHabit = new Habit(habit.id, name, frequency, habit.startDate, habit.days);
       prev.replaceElement(habit, nHabit);
       console.log(prev);
       return prev;
