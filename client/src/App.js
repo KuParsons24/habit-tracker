@@ -9,6 +9,8 @@ import HomePage from './components/HomePage';
 import * as React from "react";
 import { Habit } from './classes/classHabit';
 import { LinkedList } from './classes/LinkedList';
+import RequireAuth from './authorization/components/RequireAuth';
+import ProfilePage from './components/ProfilePage';
 
 function App() {
 
@@ -16,13 +18,14 @@ function App() {
   const [habits, setHabits] = React.useState(new LinkedList());
 
   return (
-    <BrowserRouter>
+    <div>
       <Routes>
         <Route path='/' element={<HomePage habits={habits} setHabits={setHabits} />} />    
-          <Route path='habit/:id' element={<HabitDetails habits={habits} setHabits={setHabits} /> } />
+        <Route path='habit/:id' element={<HabitDetails habits={habits} setHabits={setHabits} /> } />
+        <Route path='profile' element={<ProfilePage />} />
       </Routes>
       <BottomNav />
-    </BrowserRouter>
+    </div>
   );
 }
 

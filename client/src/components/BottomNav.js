@@ -5,9 +5,11 @@ import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import ListIcon from '@mui/icons-material/List';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { Paper } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 export default function BottomNav() {
   const [value, setValue] = React.useState(0);
+  const navigate = useNavigate();
   const navActions = [
     {
       label: 'Habits',
@@ -27,6 +29,11 @@ export default function BottomNav() {
           value={value}
           onChange={(event, newValue) => {
             setValue(newValue);
+            if (newValue === 0) {
+              navigate('/');
+            } else if (newValue === 1) {
+              navigate('profile');
+            }
           }}
         >
           {navActions.map((action) => {

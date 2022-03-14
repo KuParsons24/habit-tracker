@@ -22,7 +22,7 @@ export default function HomePage({ habits, setHabits }) {
 
   return (
     <Container id='homepage' maxWidth='md'>
-      <NavBar title={'Habits'} setOpenDialog={setOpenDialog} />
+      <NavBar title={'Habits'} setOpenDialog={setOpenDialog} addButton />
       <Toolbar />
       <Stack spacing={0.25} direction='row' alignItems='center' justifyContent='flex-end' padding='10px' >
         {days.map((day, i) => <Typography key={i} variant='body2' component='div' width='24px' align='center' >{day}</Typography>)}
