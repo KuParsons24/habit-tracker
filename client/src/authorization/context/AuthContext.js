@@ -6,7 +6,7 @@ class Data {
   }
 
   api(path, method = 'GET', body = null, requiresAuth = false, credentials = null) {
-    const url = 'http://localhost:3000' + path;
+    const url = window.location.protocol + '//' + window.location.hostname + ':3000' + path;
   
     const options = {
       method,
@@ -42,7 +42,7 @@ export function AuthProvider({ children }) {
       .then(res => res.json())
       .then((res) => {
         if (res.authenticated === 'true'){
-          console.log(res);
+          // console.log(res);
           setAuthed(true);
         }
         setIsLoading(false);
