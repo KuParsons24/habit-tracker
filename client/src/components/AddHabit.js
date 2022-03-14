@@ -87,7 +87,7 @@ export default function AddHabit({ open, setOpen, setHabits }) {
             </Grid>
             <Grid container item justifyContent='center' xs={12} >
               <Stack spacing={0.25} direction='row' alignItems='center' justifyContent='flex-end' >
-                {days.map((day, i) => <Checkbox key={i} id={i} defaultChecked onChange={handleCheck} />)}
+                {days.map((day, i) => <Checkbox key={i} id={`${i}`} defaultChecked onChange={handleCheck} />)}
               </Stack>
             </Grid>
           </Grid>

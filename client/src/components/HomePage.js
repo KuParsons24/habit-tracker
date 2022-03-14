@@ -14,7 +14,7 @@ export default function HomePage({ habits, setHabits }) {
     let array = [];
     // walk down the habits list and create an array of components.
     while(curr){
-      array.push(<HabitBar habit={curr.element} id={curr.element.id} />);
+      array.push(<HabitBar key={array.length} habit={curr.element} id={curr.element.id} />);
       curr = curr.next;
     }
     return array;
