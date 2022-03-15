@@ -2,7 +2,7 @@ import { Button, Dialog, DialogActions, DialogContent, DialogContentText, Dialog
 import * as React from "react";
 import { Habit } from "../classes/classHabit";
 
-export default function EditHabit({ open, setOpen, setHabits, habit, setHabit }) {
+export default function EditHabit({ open, setOpen, setHabits, habit, setHabit, habitsDispatch }) {
   const [frequency, setFrequency] = React.useState(habit.frequency);
   const [name, setName] = React.useState(habit.title);
 
@@ -50,10 +50,10 @@ export default function EditHabit({ open, setOpen, setHabits, habit, setHabit })
     //   date.setDate(date.getDate() + 1);
       // console.log(i % 7);
     // }
-    setHabit((prev) => {
-      const setHabit = new Habit(prev.id, name, frequency, prev.startDate, prev.days);
-      return setHabit;
-    });
+    // setHabit((prev) => {
+    //   const setHabit = new Habit(prev.id, name, frequency, prev.startDate, prev.days);
+    //   return setHabit;
+    // });
     setHabits((prev) => {
       const nHabit = new Habit(habit.id, name, frequency, habit.startDate, habit.days);
       prev.replaceElement(habit, nHabit);
@@ -62,6 +62,20 @@ export default function EditHabit({ open, setOpen, setHabits, habit, setHabit })
     });
     handleClose();
   };
+
+  const handleDispatch = () => {
+    habitsDispatch({
+      type: 'edit',
+      name: name,
+      frequency: frequency,
+      habitId: habit.id,
+    });
+    // setHabit((prev) => {
+    //   const setHabit = new Habit(prev.id, name, frequency, prev.startDate, prev.days);
+    //   return setHabit;
+    // });
+    handleClose();
+  }
 
   return (
     <div>
@@ -104,7 +118,7 @@ export default function EditHabit({ open, setOpen, setHabits, habit, setHabit })
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCancel}>Cancel</Button>
-          <Button onClick={handleEdit}>Edit</Button>
+          <Button onClick={handleDispatch}>Edit</Button>
         </DialogActions>
       </Dialog>
     </div>

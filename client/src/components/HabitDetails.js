@@ -11,12 +11,14 @@ import reactDom from 'react-dom';
 import { Habit } from '../classes/classHabit';
 import EditHabit from './EditHabit';
 
-export default function HabitDetails ({ habits, setHabits }) {
+export default function HabitDetails ({ habits, setHabits, habitsDispatch }) {
   const [date, setDate] = React.useState(new Date());
   const [editOpen, setEditOpen] = React.useState(false);
   let { id } = useParams();
   id = parseInt(id);
-  const [habit, setHabit] = React.useState(habits.findElementById(id));
+  const [stateToggle, setStateToggle] = React.useState(false);
+  // const [habit, setHabit] = React.useState(habits.findElementById(id));
+  const habit = habits.findElementById(id);
   const navigate = useNavigate();
 
   //let date = new Date();
@@ -37,17 +39,29 @@ export default function HabitDetails ({ habits, setHabits }) {
   }
 
   const handleMarkTodayClick = () => {
-    setHabit((prev) => {
-      const setHabit = new Habit(prev.id, prev.title, prev.frequency, prev.startDate, prev.days);
-      setHabit.markTodayComplete();
-      return setHabit;
+    // setHabit((prev) => {
+    //   const setHabit = new Habit(prev.id, prev.title, prev.frequency, prev.startDate, prev.days);
+    //   setHabit.markTodayComplete();
+    //   return setHabit;
+    // });
+    setStateToggle((prev) => {
+      return !prev;
+    });
+
+    habitsDispatch({
+      type: 'markToday',
+      habitId: habit.id,
     });
   }
 
   const handleDeleteClick = () => {
-    setHabits((prev) => {
-      prev.removeElement(habit);
-      return prev;
+    // setHabits((prev) => {
+    //   prev.removeElement(habit);
+    //   return prev;
+    // });
+    habitsDispatch({
+      type: 'delete',
+      habitId: habit.id,
     });
     navigate(-1);
   }
@@ -100,7 +114,7 @@ export default function HabitDetails ({ habits, setHabits }) {
         </Grid>
       </Grid>
       <Toolbar />
-      <EditHabit habit={habit} open={editOpen} setOpen={setEditOpen} setHabits={setHabits} setHabit={setHabit} />
+      <EditHabit habit={habit} open={editOpen} setOpen={setEditOpen} setHabits={setHabits} habitsDispatch={habitsDispatch} />
     </Container>
   );
 }

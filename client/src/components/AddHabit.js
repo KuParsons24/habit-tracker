@@ -4,7 +4,7 @@ import { Habit } from "../classes/classHabit";
 
 let id = 0;
 
-export default function AddHabit({ open, setOpen, setHabits }) {
+export default function AddHabit({ open, setOpen, setHabits, habitsDispatch }) {
   const [frequency, setFrequency] = React.useState([true, true, true, true, true, true, true]);
   const [name, setName] = React.useState('');
 
@@ -53,6 +53,15 @@ export default function AddHabit({ open, setOpen, setHabits }) {
     handleClose();
   };
 
+  const handleDispatch = () => {
+    habitsDispatch({
+      type: 'add',
+      name: name,
+      frequency: frequency,
+    });
+    handleClose();
+  }
+
   return (
     <div>
       <Dialog open={open} onClose={handleClose} fullWidth>
@@ -94,7 +103,7 @@ export default function AddHabit({ open, setOpen, setHabits }) {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleAdd}>Add</Button>
+          <Button onClick={handleDispatch}>Add</Button>
         </DialogActions>
       </Dialog>
     </div>
