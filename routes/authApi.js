@@ -2,20 +2,8 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/user');
 const auth = require('basic-auth');
-const session = require('express-session');
-const MongoStore = require('connect-mongo');
 const path = require('path');
 require('dotenv').config({ path: path.join(__dirname, '/../.env') })
-
-//use sessions for tracking logins
-router.use(session({
-  secret: process.env.SESSIONSECRET,
-  resave: true,
-  saveUninitialized: false,
-  store: MongoStore.create({
-    mongoUrl: process.env.MONGOURL,
-  })
-}));
 
 router.get('/logout', function(req, res, next) {
   if (req.session) {
