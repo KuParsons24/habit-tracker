@@ -1,8 +1,8 @@
 class Habit {
   constructor(id, title, frequency, startDate = new Date(), days = []) {
     this.id = id;
-    startDate.setHours(0, 0, 0, 0);
     this.startDate = new Date(startDate);
+    this.startDate.setHours(0, 0, 0, 0);
     this.days = days;
     this.frequency = frequency;
     this.title = title;
