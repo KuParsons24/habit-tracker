@@ -11,7 +11,7 @@ import { AuthProvider } from './authorization/context/AuthContext';
 
 ReactDOM.render(
   <React.StrictMode>
-    <BrowserRouter>
+    <BrowserRouter basename='/habit-tracker'>
       <AuthProvider>
         <Routes>
           <Route path='*' element={

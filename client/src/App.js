@@ -15,7 +15,7 @@ import ProfilePage from './components/ProfilePage';
 let id = 0;
 
 function dataFetcher(path, method, body) {
-  const url = window.location.protocol + '//' + window.location.hostname + ':3000' + path;
+  const url = window.location.protocol + '//' + window.location.hostname + '/habit-tracker' + path;
 
   const options = {
     method: method,

@@ -6,7 +6,7 @@ class Data {
   }
 
   api(path, method = 'GET', body = null, requiresAuth = false, credentials = null) {
-    const url = window.location.protocol + '//' + window.location.hostname + ':3000' + path;
+    const url = window.location.protocol + '//' + window.location.hostname + '/habit-tracker' + path;
   
     const options = {
       method,
