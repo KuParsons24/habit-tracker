@@ -35,14 +35,14 @@ app
   .use(bodyParser.urlencoded({ extended: false }))
   .listen(PORT, () => console.log(`Listening on ${PORT}`));
 
-app.get('/habit-tracker', (req, res) => {
-  res.sendFile(path.join(__dirname, '/client/build/index.html'));
-});
-
 // Authorization routes
 app.use('/habit-tracker/auth', authApi);
 // api routes
 app.use('/habit-tracker/api', dataApi);
+
+app.get('/habit-tracker/*', (req, res) => {
+  res.sendFile(path.join(__dirname, '/client/build/index.html'));
+});
 
 // Error handling
 app.use(errorMid.notFound);
