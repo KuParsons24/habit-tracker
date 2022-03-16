@@ -83,6 +83,7 @@ function App() {
   // All habit Data to be contained at App level.
   const [habits, setHabits] = React.useState(new LinkedList());
   const [habitss, habitsDispatch] = React.useReducer(habitReducer, habitInitialState, habitInitState);
+  const [loaded, setLoaded] = React.useState(false);
 
   React.useEffect(() => {
     dataFetcher('/api/habits', 'GET')
@@ -96,6 +97,7 @@ function App() {
       });
       id = res[res.length - 1].habitId + 1;
       habitsDispatch({ type: 'init', payload: habitList });
+      setLoaded(true);
     });
   }, []);
 
@@ -103,7 +105,7 @@ function App() {
     <div>
       <Routes>
         <Route path='/' element={<HomePage habits={habitss} setHabits={setHabits} habitsDispatch={habitsDispatch} />} />    
-        <Route path='habit/:id' element={<HabitDetails habits={habitss} setHabits={setHabits} habitsDispatch={habitsDispatch} /> } />
+        <Route path='habit/:id' element={<HabitDetails habits={habitss} setHabits={setHabits} habitsDispatch={habitsDispatch} loaded={loaded} /> } />
         <Route path='profile' element={<ProfilePage />} />
       </Routes>
       <BottomNav />
