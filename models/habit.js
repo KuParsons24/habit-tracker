@@ -8,7 +8,7 @@ var HabitSchema = new mongoose.Schema({
   habitId: {
     type: Number,
     required: true,
-    unique: true,
+    unique: false,
   },
   title: {
     type: String,

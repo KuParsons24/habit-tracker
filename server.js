@@ -16,7 +16,7 @@ const PORT = process.env.PORT || 5000;
 const db = mongoConnection();
 
 app.use(cors({
-  origin: ['http://localhost:3003', 'http://kuparsons24.ddnsfree.com']
+  origin: ['http://localhost:3000', 'http://kuparsons24.ddnsfree.com']
 }));
 
 //use sessions for tracking logins
