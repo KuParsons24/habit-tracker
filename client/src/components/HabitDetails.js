@@ -8,10 +8,12 @@ import ArrowBack from '@mui/icons-material/ArrowBack';
 import { DatePicker, LocalizationProvider } from '@mui/lab';
 import DateAdapter from '@mui/lab/AdapterDateFns';
 import EditHabit from './EditHabit';
+import DeletePopUp from './DeletePopUp';
 
 export default function HabitDetails ({ habits, habitsDispatch, loaded }) {
   const [date, setDate] = React.useState(new Date());
   const [editOpen, setEditOpen] = React.useState(false);
+  const [deletePopUpOpen, setDeletePopUpOpen] = React.useState(false);
   let { id } = useParams();
   id = parseInt(id);
   const [stateToggle, setStateToggle] = React.useState(false);
@@ -44,7 +46,7 @@ export default function HabitDetails ({ habits, habitsDispatch, loaded }) {
         });
       }
 
-      const handleDeleteClick = () => {
+      const handleDeleteAcknowledge = () => {
         habitsDispatch({
           type: 'delete',
           habitId: habit.id,
@@ -54,6 +56,10 @@ export default function HabitDetails ({ habits, habitsDispatch, loaded }) {
 
       const handleEditClick = () => {
         setEditOpen(true);
+      }
+
+      const handleDeleteClick = () => {
+        setDeletePopUpOpen(true);
       }
 
       return(
@@ -93,14 +99,15 @@ export default function HabitDetails ({ habits, habitsDispatch, loaded }) {
               <Button variant='contained' onClick={handleMarkTodayClick} >Mark Today Complete</Button>
             </Grid>
             <Grid container item xs={12} justifyContent='center'>
-              <Button variant='contained' onClick={handleDeleteClick} >Delete Habit!</Button>
+              <Button variant='contained' onClick={handleEditClick} >Edit Habit</Button>
             </Grid>
             <Grid container item xs={12} justifyContent='center'>
-              <Button variant='contained' onClick={handleEditClick} >Edit Habit</Button>
+              <Button variant='contained' onClick={handleDeleteClick} >Delete Habit!</Button>
             </Grid>
           </Grid>
           <Toolbar />
           <EditHabit habit={habit} open={editOpen} setOpen={setEditOpen} habitsDispatch={habitsDispatch} />
+          <DeletePopUp open={deletePopUpOpen} setOpen={setDeletePopUpOpen} handleAcknowledge={handleDeleteAcknowledge} />
         </Container>
       );
     }
