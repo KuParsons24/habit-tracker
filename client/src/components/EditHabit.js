@@ -1,8 +1,7 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, Stack, TextField, Typography, Checkbox } from "@mui/material";
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, Stack, TextField, Typography, Checkbox } from "@mui/material";
 import * as React from "react";
-import { Habit } from "../classes/classHabit";
 
-export default function EditHabit({ open, setOpen, setHabits, habit, setHabit, habitsDispatch }) {
+export default function EditHabit({ open, setOpen, habit, habitsDispatch }) {
   const [frequency, setFrequency] = React.useState(habit.frequency);
   const [name, setName] = React.useState(habit.title);
 
@@ -16,11 +15,7 @@ export default function EditHabit({ open, setOpen, setHabits, habit, setHabit, h
   }
 
   const handleClose = () => {
-    console.log(name);
-    console.log(frequency);
     setOpen(false);
-    //setFrequency(habit.frequency);
-    //setName(habit.title);
   };
 
   const handleCheck = (e) => {
@@ -33,47 +28,20 @@ export default function EditHabit({ open, setOpen, setHabits, habit, setHabit, h
       }
       return arr;
     })
-    //console.log(frequency);
   };
 
   const handleNameChange = (e) => {
     setName(e.target.value);
   };
 
-  const handleEdit = () => {
-    // let days = [[],[],[],[],[],[],[],[],[],[],[],[]];
-    // let month = date.getMonth();
-    // date.setDate(1);
-    // console.log(date.getDate());
-    // for(let i = 0; i < date.getDate(); i++){
-    //   days[month].push(frequency[date.getDay()]);
-    //   date.setDate(date.getDate() + 1);
-      // console.log(i % 7);
-    // }
-    // setHabit((prev) => {
-    //   const setHabit = new Habit(prev.id, name, frequency, prev.startDate, prev.days);
-    //   return setHabit;
-    // });
-    setHabits((prev) => {
-      const nHabit = new Habit(habit.id, name, frequency, habit.startDate, habit.days);
-      prev.replaceElement(habit, nHabit);
-      console.log(prev);
-      return prev;
-    });
-    handleClose();
-  };
-
-  const handleDispatch = () => {
+  const handleEdit = (e) => {
+    e.preventDefault();
     habitsDispatch({
       type: 'edit',
       name: name,
       frequency: frequency,
       habitId: habit.id,
     });
-    // setHabit((prev) => {
-    //   const setHabit = new Habit(prev.id, name, frequency, prev.startDate, prev.days);
-    //   return setHabit;
-    // });
     handleClose();
   }
 
@@ -83,23 +51,24 @@ export default function EditHabit({ open, setOpen, setHabits, habit, setHabit, h
         <DialogTitle>Add a habit</DialogTitle>
         <DialogContent>
           {/* <DialogContentText>
-            To subscribe to this website, please enter your email address here. We
-            will send updates occasionally.
           </DialogContentText> */}
           <Grid container spacing={2} >
             <Grid item xs={12} >
-              <TextField
-                autoFocus
-                autoComplete='off'
-                margin="dense"
-                id="name"
-                label="Name"
-                type='text'
-                fullWidth
-                variant="standard"
-                value={name}
-                onChange={handleNameChange}
-              />
+              <form id="editTitle" autoComplete="off" onSubmit={handleEdit}>
+                <TextField
+                  autoFocus
+                  required
+                  autoComplete='off'
+                  margin="dense"
+                  id="name"
+                  label="Name"
+                  type='text'
+                  fullWidth
+                  variant="standard"
+                  value={name}
+                  onChange={handleNameChange}
+                />
+              </form>
             </Grid>
             <Grid item xs={12} >
               <Typography variant='subtitle1' fontWeight='bold' >Frequency</Typography>
@@ -118,7 +87,7 @@ export default function EditHabit({ open, setOpen, setHabits, habit, setHabit, h
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCancel}>Cancel</Button>
-          <Button onClick={handleDispatch}>Edit</Button>
+          <Button type="submit" form='editTitle'>Edit</Button>
         </DialogActions>
       </Dialog>
     </div>

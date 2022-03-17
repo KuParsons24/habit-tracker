@@ -1,15 +1,11 @@
-import logo from './logo.svg';
 import './App.css';
 import BottomNav from './components/BottomNav';
-import NavBar from './components/NavBar';
-import { Toolbar } from '@mui/material';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import HabitDetails from './components/HabitDetails';
 import HomePage from './components/HomePage';
 import * as React from "react";
 import { Habit } from './classes/classHabit';
 import { LinkedList } from './classes/LinkedList';
-import RequireAuth from './authorization/components/RequireAuth';
 import ProfilePage from './components/ProfilePage';
 
 let id = 0;
@@ -81,10 +77,10 @@ function App() {
   }
 
   // All habit Data to be contained at App level.
-  const [habits, setHabits] = React.useState(new LinkedList());
-  const [habitss, habitsDispatch] = React.useReducer(habitReducer, habitInitialState, habitInitState);
+  const [habits, habitsDispatch] = React.useReducer(habitReducer, habitInitialState, habitInitState);
   const [loaded, setLoaded] = React.useState(false);
 
+  // At app startup fetch the users habits.
   React.useEffect(() => {
     dataFetcher('/api/habits', 'GET')
     .then(res => res.json())
@@ -95,6 +91,7 @@ function App() {
         const tempHabit = new Habit(habit.habitId, habit.title, habit.frequency, habit.startDate, habit.days);
         habitList.add(tempHabit);
       });
+      // Set id of next created habit.
       id = res[res.length - 1].habitId + 1;
       habitsDispatch({ type: 'init', payload: habitList });
       setLoaded(true);
@@ -104,8 +101,8 @@ function App() {
   return (
     <div>
       <Routes>
-        <Route path='/' element={<HomePage habits={habitss} setHabits={setHabits} habitsDispatch={habitsDispatch} />} />    
-        <Route path='habit/:id' element={<HabitDetails habits={habitss} setHabits={setHabits} habitsDispatch={habitsDispatch} loaded={loaded} /> } />
+        <Route path='/' element={<HomePage habits={habits} habitsDispatch={habitsDispatch} />} />    
+        <Route path='habit/:id' element={<HabitDetails habits={habits} habitsDispatch={habitsDispatch} loaded={loaded} /> } />
         <Route path='profile' element={<ProfilePage />} />
       </Routes>
       <BottomNav />

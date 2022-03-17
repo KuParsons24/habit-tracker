@@ -5,8 +5,6 @@ import CloseIcon from '@mui/icons-material/Close';
 import * as React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-// prop: days: 0 = non active day, 1 = active but not logged, 2 = logged
-// prop: tite = habit title
 export default function HabitBar({ habit, id }) {
   const [progress, setProgress] = React.useState(0);
   let navigate = useNavigate();
@@ -17,17 +15,13 @@ export default function HabitBar({ habit, id }) {
 
   // Sets the progress bar on the left side of the habit container.
   const calcProgress = () => {
-    // console.log('I Ran!');
     let week = habit.getWeekData();
     let logged = 0;
     let active = 0;
     for (let day in week) {
-      // console.log(day);
       if (week[day] === 1) {
-        // console.log('Active +');
         active++;
       } else if (week[day] === 2){
-        // console.log('logged +');
         logged++;
         active++;
       }

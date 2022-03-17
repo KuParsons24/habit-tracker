@@ -4,7 +4,7 @@ import HabitBar from "./HabitBar";
 import NavBar from './NavBar';
 import AddHabit from './AddHabit';
 
-export default function HomePage({ habits, setHabits, habitsDispatch }) {
+export default function HomePage({ habits, habitsDispatch }) {
   const [openDialog, setOpenDialog] = React.useState(false);
 
   const days = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
@@ -30,7 +30,7 @@ export default function HomePage({ habits, setHabits, habitsDispatch }) {
       { habits.isEmpty() ? <Typography>There are no habits to display! Create a new habit to get started.</Typography> : null }
       { listHabits() }
       <Toolbar />
-      <AddHabit open={openDialog} setOpen={setOpenDialog} setHabits={setHabits} habitsDispatch={habitsDispatch} />
+      <AddHabit open={openDialog} setOpen={setOpenDialog} habitsDispatch={habitsDispatch} />
     </Container>
   );
 }

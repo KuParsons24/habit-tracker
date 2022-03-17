@@ -1,4 +1,4 @@
-import { Button, Container, Grid, IconButton, TextField, Toolbar, Typography } from '@mui/material';
+import { Button, Container, Grid, IconButton, TextField, Toolbar } from '@mui/material';
 import * as React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import BasicCalendar from './BasicCalendar';
@@ -7,31 +7,22 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import ArrowBack from '@mui/icons-material/ArrowBack';
 import { DatePicker, LocalizationProvider } from '@mui/lab';
 import DateAdapter from '@mui/lab/AdapterDateFns';
-import reactDom from 'react-dom';
-import { Habit } from '../classes/classHabit';
 import EditHabit from './EditHabit';
 
-export default function HabitDetails ({ habits, setHabits, habitsDispatch, loaded }) {
+export default function HabitDetails ({ habits, habitsDispatch, loaded }) {
   const [date, setDate] = React.useState(new Date());
   const [editOpen, setEditOpen] = React.useState(false);
   let { id } = useParams();
   id = parseInt(id);
   const [stateToggle, setStateToggle] = React.useState(false);
-  // const [habit, setHabit] = React.useState(habits.findElementById(id));
   const navigate = useNavigate();
+
   if(loaded) {
     let habit = habits.findElementById(id);
     if (habit === -1) {
       navigate('/');
       return null;
     } else {
-      //let date = new Date();
-      const checkDate = () => {
-        console.log(date.getMonth());
-        date.setMonth(date.getMonth() + 1);
-        setDate(new Date(date));
-      };
-
       const handleForwardArrowClick = () => {
         date.setMonth(date.getMonth() + 1);
         setDate(new Date(date));
@@ -43,11 +34,6 @@ export default function HabitDetails ({ habits, setHabits, habitsDispatch, loade
       }
 
       const handleMarkTodayClick = () => {
-        // setHabit((prev) => {
-        //   const setHabit = new Habit(prev.id, prev.title, prev.frequency, prev.startDate, prev.days);
-        //   setHabit.markTodayComplete();
-        //   return setHabit;
-        // });
         setStateToggle((prev) => {
           return !prev;
         });
@@ -59,10 +45,6 @@ export default function HabitDetails ({ habits, setHabits, habitsDispatch, loade
       }
 
       const handleDeleteClick = () => {
-        // setHabits((prev) => {
-        //   prev.removeElement(habit);
-        //   return prev;
-        // });
         habitsDispatch({
           type: 'delete',
           habitId: habit.id,
@@ -118,7 +100,7 @@ export default function HabitDetails ({ habits, setHabits, habitsDispatch, loade
             </Grid>
           </Grid>
           <Toolbar />
-          <EditHabit habit={habit} open={editOpen} setOpen={setEditOpen} setHabits={setHabits} habitsDispatch={habitsDispatch} />
+          <EditHabit habit={habit} open={editOpen} setOpen={setEditOpen} habitsDispatch={habitsDispatch} />
         </Container>
       );
     }

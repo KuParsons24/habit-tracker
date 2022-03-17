@@ -1,10 +1,7 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, Stack, TextField, Typography, Checkbox } from "@mui/material";
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, Stack, TextField, Typography, Checkbox } from "@mui/material";
 import * as React from "react";
-import { Habit } from "../classes/classHabit";
 
-let id = 0;
-
-export default function AddHabit({ open, setOpen, setHabits, habitsDispatch }) {
+export default function AddHabit({ open, setOpen, habitsDispatch }) {
   const [frequency, setFrequency] = React.useState([true, true, true, true, true, true, true]);
   const [name, setName] = React.useState('');
 
@@ -26,34 +23,14 @@ export default function AddHabit({ open, setOpen, setHabits, habitsDispatch }) {
       }
       return prev;
     })
-    //console.log(frequency);
   };
 
   const handleNameChange = (e) => {
     setName(e.target.value);
   };
 
-  const handleAdd = () => {
-    // let days = [[],[],[],[],[],[],[],[],[],[],[],[]];
-    // let month = date.getMonth();
-    // date.setDate(1);
-    // console.log(date.getDate());
-    // for(let i = 0; i < date.getDate(); i++){
-    //   days[month].push(frequency[date.getDay()]);
-    //   date.setDate(date.getDate() + 1);
-      // console.log(i % 7);
-    // }
-    setHabits((prev) => {
-      const habit = new Habit(id, name, frequency);
-      prev.add(habit);
-      console.log(prev);
-      id++;
-      return prev;
-    });
-    handleClose();
-  };
-
-  const handleDispatch = () => {
+  const handleAdd = (e) => {
+    e.preventDefault();
     habitsDispatch({
       type: 'add',
       name: name,
@@ -68,23 +45,24 @@ export default function AddHabit({ open, setOpen, setHabits, habitsDispatch }) {
         <DialogTitle>Add a habit</DialogTitle>
         <DialogContent>
           {/* <DialogContentText>
-            To subscribe to this website, please enter your email address here. We
-            will send updates occasionally.
           </DialogContentText> */}
           <Grid container spacing={2} >
             <Grid item xs={12} >
-              <TextField
-                autoFocus
-                autoComplete='off'
-                margin="dense"
-                id="name"
-                label="Name"
-                type='text'
-                fullWidth
-                variant="standard"
-                value={name}
-                onChange={handleNameChange}
-              />
+              <form id="title" autoComplete="off" onSubmit={handleAdd}>
+                <TextField
+                  autoFocus
+                  autoComplete='off'
+                  required
+                  margin="dense"
+                  id="name"
+                  label="Name"
+                  type='text'
+                  fullWidth
+                  variant="standard"
+                  value={name}
+                  onChange={handleNameChange}
+                />
+              </form>
             </Grid>
             <Grid item xs={12} >
               <Typography variant='subtitle1' fontWeight='bold' >Frequency</Typography>
@@ -103,7 +81,7 @@ export default function AddHabit({ open, setOpen, setHabits, habitsDispatch }) {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleDispatch}>Add</Button>
+          <Button type="submit" form='title' >Add</Button>
         </DialogActions>
       </Dialog>
     </div>
